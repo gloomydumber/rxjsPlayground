@@ -77,7 +77,7 @@ Observable은 일련의 값들을 발행함
 
 요청이 성공했으면, 한번에 4개의 요청을 보낼 수 있으므로, 아직 요청하지 않은 *endpoint*에 대한 요청을 순차적으로 포함하여 항상 최대 4개의 요청을 할 수 있도록 한다
 
-아래는 해당 조건을 *rsjs*로 구현한 것이다
+아래는 해당 조건을 *rxjs*로 구현한 것이다
 
 ```javascript
 const { range } = rxjs;
@@ -98,7 +98,7 @@ range(1, 20).pipe(
 
 우선, `range`를 통해 1 ~ 20까지의 숫자를 `stream`으로 생성
 
-`mergeMap`은 `stream`에서 나온 각 값마다 그 값을 사용하는, 또 다른 `stream`읊 생성한다
+`mergeMap`은 `stream`에서 나온 각 값마다 그 값을 사용하는, 또 다른 `stream`을 생성한다
 
 그 값마다 _ajax_ 요청을 보내는 `stream`을 만들되, 이 `stream`들이 동시에 실행되도록 하되 개수를 제한할 수 있다
 
@@ -122,6 +122,16 @@ range(1, 20).pipe(
 
 이러한 결과 값들은 한 `stream`으로 병합되어서 최종 발행된다
 
+## krtube
+
+1. [Observable(Stream 생성기) 만들기](https://github.com/gloomydumber/rxjsPlayground/blob/master/lectures/lecture01.md)
+
 ## References
+
+https://rxjs-dev.firebaseapp.com/guide/overview
+
+https://www.learnrxjs.io/
+
+https://reactive.how/
 
 https://rxviz.com/
