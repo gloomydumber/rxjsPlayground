@@ -125,8 +125,8 @@ range(1, 20).pipe(
 ## krtube
 
 1. [Observable(Stream 생성기) 만들기](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/lecture01.md)
-
 2. [Observer(구독자)에게 발행물 구독시키기](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/lecture02.md)
+3. [Operator 사용해보기](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/lecture03.md)
 
 ## References
 
