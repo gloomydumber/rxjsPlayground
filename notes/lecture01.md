@@ -70,6 +70,13 @@ obs$.subscribe((result) => console.log(result.response));
 
 위 예제 코드에서는 본래 *browser*에서 지원하는 `Ajax`를 _Node.js_ 상에서 사용하기 위해, `xhr2` 라이브러리를 통해, `rxjs` 라이브러리에 정의된 `XMLHttpRequest` 객체를 따로 지정해주었다
 
+`WebSocket`의 경우도 마찬가지라 아래와 같은 설정이 필요
+
+```javascript
+// tslint:disable-next-line
+(global as any).WebSocket = require('ws');
+```
+
 [Ajax를 통한 스트림](https://github.com/gloomydumber/rxjsPlayground/blob/master/lectures/ajaxStream.js)
 
 ## 직접 만드는 스트림
