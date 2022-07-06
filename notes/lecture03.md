@@ -104,4 +104,4 @@ observable$
 
 ## References
 
-[rxjs 공식 문서 - Operators](https://rxjs-dev.firebaseapp.com/guide/operators)
+[🔗 rxjs 공식 문서 - Operators](https://rxjs-dev.firebaseapp.com/guide/operators)

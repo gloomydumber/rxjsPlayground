@@ -138,6 +138,6 @@ setTimeout((_) => {
 
 ## References
 
-[rxjs/ajax on Node.js Github Issues](https://github.com/ReactiveX/rxjs/issues/2099)
+[🔗 rxjs/ajax on Node.js Github Issues](https://github.com/ReactiveX/rxjs/issues/2099)
 
-[WebSocket 또한 ajax와 같은 Issue 존재](https://github.com/ReactiveX/rxjs/issues/3942)
+[🔗 WebSocket 또한 ajax와 같은 Issue 존재](https://github.com/ReactiveX/rxjs/issues/3942)
