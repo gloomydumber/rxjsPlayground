@@ -13,7 +13,7 @@ const clicks$ = fromEvent(document, "click").pipe(
   pluck("interval"),
   scan((acc, i) => acc + i, 0),
   tap((x) => console.log("CLICKED: " + x))
-);
+); // 이전 클릭과의 새로운 클릭과의 시간 차의 누적 값을 발행
 
 clicks$.subscribe();
 ```
@@ -30,6 +30,10 @@ clicks$
   .subscribe((x) => console.log("OUTPUT: -------- " + x));
 ```
 
+`debounceTime`은 사용자가 지정한 시간 동안 다른 입력이 들어오면, 값을 발행하지않고, 사용자가 지정한 시간 동안 다른 입력이 방해하지 않아야 값을 발행함
+
+검색엔진의 추천검색어 기능 등을 구현할 때 활용됨
+
 [🔗 rxjs 공식 문서 - debounceTime](https://rxjs.dev/api/operators/debounceTime)
 
 ### auditTime
@@ -43,6 +47,8 @@ clicks$
   .pipe(auditTime(1000))
   .subscribe((x) => console.log("OUTPUT: -------- " + x));
 ```
+
+`auditTime`은 사용자가 지정한 시간 동안, 입력받은 값 중에서 마지막의 값을 발행함
 
 [🔗 rxjs 공식 문서 - auditTime](https://rxjs.dev/api/operators/auditTime)
 
@@ -59,6 +65,10 @@ clicks$
     console.log("OUTPUT: -------- " + x.value + " :" + x.interval)
   );
 ```
+
+`sampleTime`은 사용자가 지정한 시간 구간 마다 입력받은 값을 발행함
+
+특정 시간 간격으로 값을 받아야 할 때 사용
 
 [🔗 rxjs 공식 문서 - sampleTime](https://rxjs.dev/api/operators/sampleTime)
 
@@ -80,6 +90,8 @@ clicks$
   )
   .subscribe((x) => console.log("OUTPUT: -------- " + x));
 ```
+
+중간인자는 `scheduler`임
 
 [🔗 rxjs 공식 문서 - throttleTime](https://rxjs.dev/api/operators/throttleTime)
 
@@ -139,7 +151,7 @@ fromEvent(document, "click")
   .pipe(
     tap((_) => console.log(bs.getValue())),
     debounce((e) => interval(bs.getValue())),
-    tap((_) => bs.next(bs.getValue() + 500))
+    tap((_) => bs.next(bs.getValue() + 500)) // tap으로 BehaviorSubject에 부작용 가함
   )
   .subscribe((_) => console.log("CLICK"));
 ```
