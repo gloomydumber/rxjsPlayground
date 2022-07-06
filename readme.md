@@ -132,6 +132,8 @@ range(1, 20).pipe(
 6. [기본적인 배열 연산자들](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/lecture06.md)
 7. [Transformation 연산자들](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/lecture07.md)
 8. [take와 skip 관련 연산자들](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/lecture08.md)
+9. [시간을 다루는 연산자들 1](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/lecture09.md)
+10. [시간을 다루는 연산자들 2](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/lecture10.md)
 
 ## References
 
