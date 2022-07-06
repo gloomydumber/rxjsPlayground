@@ -129,6 +129,7 @@ range(1, 20).pipe(
 3. [Operator 사용해보기](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/lecture03.md)
 4. [내 맘대로 발행하는 Subject](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/lecture04.md)
 5. [⏰ Scheduler](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/lecture05.md)
+6. [기본적인 배열 연산자들](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/lecture06.md)
 
 ## References
 
