@@ -100,7 +100,7 @@ observable$
 
 ## 마블 다이어그램 읽기
 
-![marble-diagrm](https://github.com/gloomydumber/rxjsPlayground/blob/master/img/marble-diagrm.png)
+![marble-diagrm](https://github.com/gloomydumber/rxjsPlayground/blob/master/img/marble-diagram.png)
 
 ## References
 
