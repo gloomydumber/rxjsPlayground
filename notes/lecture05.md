@@ -78,7 +78,7 @@ of("D", "E", "F").pipe(tap(tapper)).subscribe(observer);
 
 그리고, 'A', 'B', 'C'는 `observeOn`을 사용해서 이들이 구독자에게 전달되는 시점만 async로 동작하도록 했다
 
-때문에 전자는 tap('~IN')되는 동작까지 모두 4, 5, 6 보다 늦게 나온 반면, 후자는 tap 부분은 먼저 출력되고 subscribe('~ OUT') 되는 부분만 'D', 'E', 'F' 보다 나중에 출력된 것이다
+때문에 전자는 tap('\ㅇ~IN')되는 동작까지 모두 4, 5, 6 보다 늦게 나온 반면, 후자는 tap 부분은 먼저 출력되고 subscribe('\~ OUT') 되는 부분만 'D', 'E', 'F' 보다 나중에 출력된 것이다
 
 ## References
 
