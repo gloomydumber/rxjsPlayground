@@ -135,6 +135,7 @@ range(1, 20).pipe(
 9. [시간을 다루는 연산자들 1](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/lecture09.md)
 10. [시간을 다루는 연산자들 2](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/lecture10.md)
 11. [스트림을 결합하는 연산자들](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/lecture11.md)
+12. [기타 유용한 연산자들 1](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/lecture12.md)
 
 ## References
 
