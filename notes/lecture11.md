@@ -93,6 +93,8 @@ concat(interval$, click$).subscribe(console.log);
 
 ### mergeMap : (mergeAll 참조)
 
+일반적으로 `mergeAll`을 단순화한 `mergeMap`을 사용함
+
 ```javascript
 const { interval, fromEvent } = reqruie("rxjs");
 const { mergeMap, map, take } = require("rxjs/operators");
@@ -193,6 +195,8 @@ of(3, 15, 4, 9, 1, 7)
 
 ### switchMap : 기준 스트림이 새 값을 발행하면 진행중이던 스트림을 멈춤
 
+`switchMap`은 가령 어떤 _ajax_ 요청 중에, 기존 _ajax_ 요청 보다 더 유용한 _ajax_ 요청 *endpoint*를 알아냈을 경우, 기존 요청을 취소하고 새로 요청하는 등의 방식으로 활용된다
+
 ```javascript
 const { interval, fromEvent } = reqruie("rxjs");
 const { switchMap, map, take } = require("rxjs/operators");
@@ -212,6 +216,8 @@ fromEvent(document, "click")
 [🔗 rxjs 공식 문서 - switchMap](https://rxjs.dev/api/operators/switchMap)
 
 ## ~MapTo 연산자들 : 값은 두번째 스트림에서만 발행
+
+기준 스트림으로 부터 인자를 받아 올 필요가 없을 때 사용
 
 ### mergeMapTo
 
