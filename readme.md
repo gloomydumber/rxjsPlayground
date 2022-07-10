@@ -142,6 +142,9 @@ range(1, 20).pipe(
 ### projects
 
 1. [스마트한 키워드 검색창 만들기](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/project01.md)
+2. [애니메이션 그림판 만들기](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/project02.md)
+3. [온라인 타자속도 측정기 만들기](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/project03.md)
+4. [부록 - 프롬프터 예제 코드](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/project04.md)
 
 ## References
 
