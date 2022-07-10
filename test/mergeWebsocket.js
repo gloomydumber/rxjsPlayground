@@ -25,7 +25,11 @@ const upipe = subjectUpbit.pipe(
   map((x) => ({ market: x.code, price: x.trade_price }))
 );
 
-merge(bpipe, upipe).subscribe(console.log);
+merge(bpipe, upipe).subscribe((x) => console.log(Object.assign({}, x)));
+
+// setInterval(() => {
+//   console.log("상태갱신", blank);
+// }, 1000);
 
 // subject.next({
 //   message: `ping`,
