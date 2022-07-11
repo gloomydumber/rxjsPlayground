@@ -64,3 +64,79 @@ console.log(aunt);
 Object.assign(aunt, tway3);
 
 console.log(aunt);
+
+const TICKER = "BTC";
+const TICKER2 = "1INCH";
+const price = 120;
+const jsonError = {
+  [TICKER]: {
+    ticker: TICKER,
+    price,
+  },
+};
+
+console.log(jsonError);
+
+const jsonError2 = {
+  [TICKER2]: {
+    ticker: TICKER2,
+    price,
+  },
+};
+
+console.log(jsonError2);
+console.log(jsonError.BTC);
+console.log(jsonError2["1INCH"]);
+console.log(jsonError["BTC"]);
+
+console.log(JSON.stringify(jsonError));
+console.log(JSON.stringify(jsonError2));
+
+console.log(JSON.parse(JSON.stringify(jsonError)));
+console.log(JSON.parse(JSON.stringify(jsonError2)));
+
+const minas = "KRW-BTC";
+console.log(minas);
+console.log(minas.toString());
+
+const minasObject = {
+  [minas]: {
+    market: "BTC",
+    price: 10,
+  },
+};
+
+console.log(minasObject);
+
+const nonminas = "KRWBTC";
+
+const nonminasObject = {
+  [nonminas]: {
+    market: "BTC",
+    price: 10,
+  },
+};
+
+console.log(nonminasObject);
+
+const firstObject = {
+  data: {
+    name: "kim",
+    age: 21,
+  },
+};
+
+const secondObject = {
+  data: {
+    job: "student",
+    telephone: 0x23,
+  },
+};
+
+const spreadSyntax = { ...secondObject };
+spreadSyntax.data.name = firstObject.data.name;
+spreadSyntax.data.age = firstObject.data.age;
+console.log(spreadSyntax);
+
+const assignMethod = Object.assign(firstObject, secondObject);
+console.log(assignMethod);
