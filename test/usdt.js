@@ -3,7 +3,6 @@ const USDT = [
   "ethusdt",
   "neousdt",
   "mtlusdt",
-  "ltcusdt",
   "xrpusdt",
   "etcusdt",
   "omgusdt",
