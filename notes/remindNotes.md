@@ -24,7 +24,7 @@ _rxjs_ 를 활용하면서 느낀 점이나 _trial and error_ 등을 상기하�
 
 단순히 원래 `tap` 을 외부 상태에 영향을 끼치고자 할 때 사용하도록 구현한 `operator` 이기 때문일 것이라고 추측한다.
 
-이미 내부 상태는 `map`, `mergeMap` 등으로 _(rxjs tap operator에도 이러한 뉘앙스?의 설명이 있다)_ 영향을 끼치고 있기 때문에, 따로 이름을 정의해서 만들어 준 것 같다.
+이미 내부 상태는 `map`, `mergeMap` 등으로 _(rxjs tap operator document에도 이러한 뉘앙스?의 설명이 있다)_ 영향을 끼치고 있기 때문에, 따로 이름을 정의해서 만들어 준 것 같다.
 
 `ReactiveX` 에서는 `do`로 정의되어있는데, `rxjs`에서는 `do` 와 `tap` 모두 같은 동작을 한다.
 
