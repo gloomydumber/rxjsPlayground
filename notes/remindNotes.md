@@ -35,13 +35,10 @@ _rxjs_ 를 활용하면서 느낀 점이나 _trial and error_ 등을 상기하�
 ```javascript
 combineLatest({ bpipe, upipe })
   .pipe(
-    tap(
-      (
-        x // 지양되어야함
-      ) =>
-        Object.assign(x, {
-          premium: 100 - ((x.bpipe.price * 1312.5) / x.upipe.price) * 100,
-        })
+    tap((x) =>
+      Object.assign(x, {
+        premium: 100 - ((x.bpipe.price * 1312.5) / x.upipe.price) * 100,
+      })
     )
   )
   .subscribe((x) => console.log(x));
