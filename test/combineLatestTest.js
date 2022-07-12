@@ -27,9 +27,19 @@ const upipe = subjectUpbit.pipe(
 
 // merge(bpipe, upipe).subscribe((x) => console.log(Object.assign({}, x)));
 
+// combineLatest({ bpipe, upipe })
+//   .pipe(
+//     tap((x) =>
+//       Object.assign(x, {
+//         premium: 100 - ((x.bpipe.price * 1312.5) / x.upipe.price) * 100,
+//       })
+//     )
+//   )
+//   .subscribe((x) => console.log(x));
+
 combineLatest({ bpipe, upipe })
   .pipe(
-    tap((x) =>
+    map((x) =>
       Object.assign(x, {
         premium: 100 - ((x.bpipe.price * 1312.5) / x.upipe.price) * 100,
       })

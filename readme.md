@@ -146,6 +146,10 @@ range(1, 20).pipe(
 3. [온라인 타자속도 측정기 만들기](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/project03.md)
 4. [부록 - 프롬프터 예제 코드](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/project04.md)
 
+### Notes for remind
+
+[rxjs 활용기](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/remindNotes.md)
+
 ## References
 
 https://rxjs-dev.firebaseapp.com/guide/overview
