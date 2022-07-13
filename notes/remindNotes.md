@@ -73,3 +73,23 @@ combineLatest({ bpipe, upipe })
 ```
 
 아직 지양되는 이유 등을 정확한 documentation 등으로는 확인하지 못해 의문이 완전 풀리지는 않았다고 해야겠다.
+
+## interval에 관해
+
+`interval`의 경우는 `stream`의 최초 시작 시점 부터 즉시 발행하는 것이 아니라, `interval`의 간격으로 주어진 매개변수 시간이 흐른 뒤에 실행된다.
+
+```javascript
+setInterval(() => {
+  console.log("2s later first see and then...");
+}, 2000);
+```
+
+가령 위 코드는 처음 코드 실행 시에는 `console.log`가 실행되지 않고, 2초 후 부터 실행되기 시작해서 2초 간격으로 실행된다
+
+코드의 최초 실행 부터 `stream`을 발행하기 위해서는 `timer`를 사용해야 한다
+
+```javascript
+timer(0, 2000).subscribe(console.log);
+```
+
+가령 위 코드는 처음 부터 console.log가 실행되고 2초 간격으로 계속 실행된다
