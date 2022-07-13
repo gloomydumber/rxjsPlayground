@@ -93,3 +93,33 @@ timer(0, 2000).subscribe(console.log);
 ```
 
 가령 위 코드는 처음 부터 console.log가 실행되고 2초 간격으로 계속 실행된다
+
+## modeling
+
+우선 생각나는대로 휘갈겨 써봄
+
+USD fetch 및 catchError
+
+Upbit / Binance Websocket Subject
+
+우선, BTC를 먼저 stream 생성 (이는 아랫줄의 USDT 계산을 위함), 이후 각 ticker 별로 stream 생성 후 combineLatest
+
+USDT 계산 (즉, 일단 BTC 기준으로의 premium 이 계산되고 나서야 이후 premium 들을 계산할 수 있음)
+
+Upbit는 Subscribe 와 동시에 해당 ticker들의 가격 조회가 가능하나, Binance의 경우는 tick이 발생해야 해당 ticker의 가격정보가 수신됨 (연결 즉시 1회 일괄적으로 가격을 조회할 수 있는지 방법 고안)
+
+그 이후 각각 dollar premium 및 tether premium 계산
+
+기준 index 초과시 알림
+
+```
+// BTC, XRP ...                                                                                                           괴리 포착기 (subscriber), merge된 subject 1개만 받아서
+//===binance==>  A ===> filter(BTC) ====> { Bprice : 23 } ==> |----------------------------------------------|
+//                                                            | combinelatest{Bprice: W, Uprice: W, Gap: 4}  |  ====|
+//===Upbit====> 1 ====> filter(BTC) ====> { Uprice : 12 } ==> |----------------------------------------------|      |             |-------------------|
+//                                                                                                                  |====merge===>|  대출 해줘        |===>
+//===binance==>  B ===> filter(XRP) ====> { Bprice : 44 } ==> |----------------------------------------------|      |             |-------------------|
+//                                                            | combinelatest{Bprice: W, Uprice: W, Gap: 4}  |  ====|
+//===Upbit====> 2 ====> filter(XRP) ====> { Uprice : 11 } ==> |----------------------------------------------|
+// stateless
+```
