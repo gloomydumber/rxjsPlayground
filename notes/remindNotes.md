@@ -2,6 +2,34 @@
 
 _rxjs_ 를 활용하면서 느낀 점이나 _trial and error_ 등을 상기하기위해서 작성 <!-- `rxjs` -->
 
+## poop
+
+Shitty business logic code style
+
+```javascript
+merge(bpipe, upipe)
+  .pipe(
+    scan((acc, value) => {
+      //   const y = Object.assign({}, acc, value);
+      const key = Object.keys(value)[0];
+      //   console.log(value, key, value[key]);
+      //   Object.assign(acc, value);
+      if (!acc[key]) {
+        Object.assign(acc, value);
+      } else if (value[key]["KRWprice"]) {
+        acc[key]["KRWmarket"] = value[key]["KRWmarket"];
+        acc[key]["KRWprice"] = value[key]["KRWprice"];
+      } else {
+        acc[key]["USDTmarket"] = value[key]["USDTmarket"];
+        acc[key]["USDTprice"] = value[key]["USDTprice"];
+      }
+
+      return acc;
+    }, {})
+  )
+  .subscribe((x) => console.log(x));
+```
+
 ## tap에 관해
 
 `tap`은 공식 문서에서도 아래와 같이 정의되며 _"outside" state_ 에 영향을 주고 싶을 때에 사용할 수 있다고 정의되어있다.
@@ -110,6 +138,23 @@ let subject = webSocket('ws://localhost:8081');
 subject.pipe(
    retry(retryConfig) //support auto reconnect
 ).subscribe(...)
+```
+
+## switchMap에 관해
+
+n초 마다 `ajax` 요청을 하는 데에 있어서 `switchMap`을 쓰는 편이 옳지 않은지?
+
+또, `retry`나 `catchError`를 하지 않으면 `Observable` 자체가 `error`로 종료되지 않는지?
+
+```javascript
+const obs$ = timer(0, 2000).pipe(
+  mergeMap(
+    () =>
+      ajax(
+        "https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD"
+      ).pipe(pluck("response", 0, "basePrice")) // switchMap, retry (or catchError)
+  )
+);
 ```
 
 ## modeling
