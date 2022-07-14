@@ -94,7 +94,27 @@ timer(0, 2000).subscribe(console.log);
 
 가령 위 코드는 처음 부터 console.log가 실행되고 2초 간격으로 계속 실행된다
 
+## retry에 관해
+
+`rxjs 6` _implementation_ 으로 다음과 같은 `WebSocket` _reconnection_ 시도도 가능해졌다
+
+```javascript
+import { webSocket } from 'rxjs/webSocket'
+import { retry, RetryConfig } from "rxjs/operators";
+
+const retryConfig: RetryConfig = {
+  delay: 3000,
+};
+
+let subject = webSocket('ws://localhost:8081');
+subject.pipe(
+   retry(retryConfig) //support auto reconnect
+).subscribe(...)
+```
+
 ## modeling
+
+![drawio](https://github.com/gloomydumber/rxjsPlayground/blob/master/img/drawio.png)
 
 우선 생각나는대로 휘갈겨 써봄
 
