@@ -157,6 +157,50 @@ const obs$ = timer(0, 2000).pipe(
 );
 ```
 
+## defer에 관해
+
+`defer`를 통해 분기를 나눠 각기 다른 `observable`로 분할해 발행할 수 있다
+
+```javascript
+const bpipe = subjectBinance;
+
+bpipe.subscribe((x) => {
+  defer(() =>
+    x.s === "BTCUSDT"
+      ? of({ market: x.s, price: Number(x.c), usdt: Math.random() })
+      : of({ market: x.s, price: Number(x.c) })
+  ).subscribe(console.log);
+});
+```
+
+## combineLatest에 관해
+
+```javascript
+combineLatest({ bpipe, upipe, obs$ }) // Javascript Object format Combine
+  .pipe(
+    map((x) =>
+      Object.assign(x, {
+        premium: 100 - ((x.bpipe.price * x["obs$"]) / x.upipe.price) * 100,
+      })
+    )
+  )
+  .subscribe((x) => console.log(x));
+```
+
+위 코드와 같이 _Javascript Object Format_ 으로 `combineLatest`를 사용하게 되면 발행 값들의 *key*가 해당 `Observable` 변수명이된다
+
+가령 위 코드는
+
+```javascript
+{
+    bpipe: { market: 'BTCUSDT', price: 20081.75 },
+    upipe: { market: 'KRW-BTC', price: 26650000 },
+    'obs$': 1324
+}
+```
+
+이와 같은 형식으로 출력된다. *as*처럼 동작해서 _key_ 값을 유저가 설정할 수 있도록 할 수 없는지 의문
+
 ## modeling
 
 ![drawio](https://github.com/gloomydumber/rxjsPlayground/blob/master/img/drawio.png)
@@ -169,7 +213,7 @@ Upbit / Binance Websocket Subject
 
 우선, BTC를 먼저 stream 생성 (이는 아랫줄의 USDT 계산을 위함), 이후 각 ticker 별로 stream 생성 후 combineLatest
 
-USDT 계산 (즉, 일단 BTC 기준으로의 premium 이 계산되고 나서야 이후 premium 들을 계산할 수 있음)
+USDT 계산 (즉, 일단 BTC 기준으로의 premium 이 계산되고 나서야 이후 premium 들을 계산할 수 있음) - USDT 계산을 어떻게 할 것인가? defer ? iif ? 분기나누기?
 
 Upbit는 Subscribe 와 동시에 해당 ticker들의 가격 조회가 가능하나, Binance의 경우는 tick이 발생해야 해당 ticker의 가격정보가 수신됨 (연결 즉시 1회 일괄적으로 가격을 조회할 수 있는지 방법 고안)
 
