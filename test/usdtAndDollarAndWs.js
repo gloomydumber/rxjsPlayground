@@ -26,7 +26,20 @@ subjectUpbit.next(generateUpbitUUID());
 //   retry({ delay: 1500 })
 // );
 
-const bpipe = subjectBinance;
+// const bpipe = subjectBinance;
+
+const bpipe = subjectBinance.subscribe((x) => {
+  defer(() =>
+    x.s === "BTCUSDT"
+      ? of({
+          ticker: x.s.slice(0, -4),
+          market: x.s,
+          price: Number(x.c),
+          usdt: Math.random(),
+        })
+      : of({ ticker: x.s.slice(0, -4), market: x.s, price: Number(x.c) })
+  ).subscribe(console.log);
+});
 
 // const bipe = subjectBinance.defer((x) => {
 //   return x.code === "BTCUSDT"
@@ -61,13 +74,46 @@ const obs$ = timer(0, 2000).pipe(
 //   )
 // );
 
-bpipe.subscribe((x) => {
-  defer(() =>
-    x.s === "BTCUSDT"
-      ? of({ market: x.s, price: Number(x.c), usdt: Math.random() })
-      : of({ market: x.s, price: Number(x.c) })
-  ).subscribe(console.log);
-});
+// bpipe.subscribe((x) => {
+//   defer(() =>
+//     x.s === "BTCUSDT"
+//       ? of({
+//           ticker: x.s.slice(0, -4),
+//           market: x.s,
+//           price: Number(x.c),
+//           usdt: Math.random(),
+//         })
+//       : of({ ticker: x.s.slice(0, -4), market: x.s, price: Number(x.c) })
+//   ).subscribe(console.log);
+// });
+
+// const y = bpipe.pipe((x) => {
+//   defer(() =>
+//     x.s === "BTCUSDT"
+//       ? of({
+//           ticker: x.s.slice(0, -4),
+//           market: x.s,
+//           price: Number(x.c),
+//           usdt: Math.random(),
+//         })
+//       : of({ ticker: x.s.slice(0, -4), market: x.s, price: Number(x.c) })
+//   );
+// });
+
+// y.subscribe(console.log);
+
+// const bpipe = subjectBinance.asObservable().pipe((x) => {
+//   defer(() =>
+//     x.s === "BTCUSDT"
+//       ? of({
+//           ticker: x.s.slice(0, -4),
+//           market: x.s,
+//           price: Number(x.c),
+//           usdt: Math.random(),
+//         })
+//       : of({ ticker: x.s.slice(0, -4), market: x.s, price: Number(x.c) })
+//   );
+// });
 
 // bpipe.subscribe(console.log);
 

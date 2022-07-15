@@ -205,6 +205,8 @@ combineLatest({ bpipe, upipe, obs$ }) // Javascript Object format Combine
 
 ![drawio](https://github.com/gloomydumber/rxjsPlayground/blob/master/img/drawio.png)
 
+![usdtcalculation](https://github.com/gloomydumber/rxjsPlayground/blob/master/img/fluid.png)
+
 우선 생각나는대로 휘갈겨 써봄
 
 USD fetch 및 catchError

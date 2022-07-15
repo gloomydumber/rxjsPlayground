@@ -35,7 +35,7 @@ const obs$ = timer(0, 2000).pipe(
   mergeMap(() =>
     ajax(
       "https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD"
-    ).pipe(pluck("response", 0, "basePrice"))
+    ).pipe(pluck("response", 0, "basePrice"), retry({ delay: 1500 }))
   )
 );
 
