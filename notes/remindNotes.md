@@ -140,6 +140,12 @@ subject.pipe(
 ).subscribe(...)
 ```
 
+## retry에 관해 2
+
+`retry`를 하면 새로운 `stream`으로 여겨져서 기존 `streram`과는 별개인지 의문
+
+가령 `combineLatest`를 통해 구독중에 있던 `Observable` 내지는 `Subject`가 `retry`를 통해 재연결을 하였다면 계속 정상 동작하는가?
+
 ## switchMap에 관해
 
 n초 마다 `ajax` 요청을 하는 데에 있어서 `switchMap`을 쓰는 편이 옳지 않은지?
