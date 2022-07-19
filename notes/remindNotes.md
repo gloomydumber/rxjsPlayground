@@ -231,6 +231,8 @@ Upbit는 Subscribe 와 동시에 해당 ticker들의 가격 조회가 가능하�
 
 USDT 계산 부분을 그냥 ajax로 할지 고민중
 
+## on session
+
 ```
 // BTC, XRP ...                                                                                                           괴리 포착기 (subscriber), merge된 subject 1개만 받아서
 //===binance==>  A ===> filter(BTC) ====> { Bprice : 23 } ==> |----------------------------------------------|
@@ -241,4 +243,38 @@ USDT 계산 부분을 그냥 ajax로 할지 고민중
 //                                                            | combinelatest{Bprice: W, Uprice: W, Gap: 4}  |  ====|
 //===Upbit====> 2 ====> filter(XRP) ====> { Uprice : 11 } ==> |----------------------------------------------|
 // stateless
+```
+
+```
+upbit --> filter -> XRP/KRW -------------------------------------
+                    BTC/KRW  ---                                 |
+                                |-combineLatest---> USDT/KRW-----+--combineLatest---> {xrpkrw, xrpusdt, usdtkrw
+binance             BTC/USDT ---                                 |
+                    XRP/USDT-------------------------------------
+
+{btckrw, btcusdt, usdtkrw}
+{xrpkrw, xrpusdt, usdtkrw}
+
+worse is better
+
+A stream {BTC, Others} (Binance)
+
+B filter BTC
+C filter Others { b: 200, u : 100, premium :  }
+
+2랑 B를 합쳐서 먼가 계산해야함 -> usdt/krw
+
+1 stream {BTC, Others} (Upibt)
+
+2 filter BTC
+3 filter Others
+
+btc<---
+
+upbit -> eth eth xrp bch luna btc
+binance -> eth xrp bch luna xrp xrp xlm xlm luna luna | btc
+
+usdt/krw <----
+
+(btc/usdt) / (btc/krw)
 ```
