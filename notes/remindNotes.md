@@ -179,7 +179,7 @@ bpipe.subscribe((x) => {
 });
 ```
 
-## combineLatest에 관해
+## combineLatest에 관해 (✔️)
 
 ```javascript
 combineLatest({ bpipe, upipe, obs$ }) // Javascript Object format Combine
@@ -206,6 +206,24 @@ combineLatest({ bpipe, upipe, obs$ }) // Javascript Object format Combine
 ```
 
 이와 같은 형식으로 출력된다. *as*처럼 동작해서 _key_ 값을 유저가 설정할 수 있도록 할 수 없는지 의문
+
+### ✔️ Resolved
+
+```javascript
+combineLatest({ binance: bpipe, upbit: upipe, usd: obs$ });
+```
+
+와 같이 인자를 전달하면,
+
+```javascript
+{
+    binance: { market: 'BTCUSDT', price: 20081.75 },
+    upbit: { market: 'KRW-BTC', price: 26650000 },
+    usd: 1324
+}
+```
+
+로 _key_ 값을 변경할 수 있다
 
 ## modeling
 
@@ -234,47 +252,19 @@ USDT 계산 부분을 그냥 ajax로 할지 고민중
 ## on session
 
 ```
-// BTC, XRP ...                                                                                                           괴리 포착기 (subscriber), merge된 subject 1개만 받아서
-//===binance==>  A ===> filter(BTC) ====> { Bprice : 23 } ==> |----------------------------------------------|
-//                                                            | combinelatest{Bprice: W, Uprice: W, Gap: 4}  |  ====|
-//===Upbit====> 1 ====> filter(BTC) ====> { Uprice : 12 } ==> |----------------------------------------------|      |             |-------------------|
-//                                                                                                                  |====merge===>|  대출 해줘        |===>
-//===binance==>  B ===> filter(XRP) ====> { Bprice : 44 } ==> |----------------------------------------------|      |             |-------------------|
-//                                                            | combinelatest{Bprice: W, Uprice: W, Gap: 4}  |  ====|
-//===Upbit====> 2 ====> filter(XRP) ====> { Uprice : 11 } ==> |----------------------------------------------|
-// stateless
+// {ticker: "BTC/KRW", price: 31150000}
+// upbitBTC ---------------------   calculateUsdtExchangeRate {KRW/USDT: 1312} <--- 얘가하나의 observable
+// {ticker: "BTC/USDT", price: 23730} |  -----------
+// binanceBTC------------------------> combineLatest| ---
+//                                     -------------     |
+// {ticker: "XRP/KRW", price: 300}                       |      calculateCoinPremium {ticker: "XRP", upbitPrice: 300, binancePrice: 3, usdtPremium: 4, usdPremium: 3}
+// upbitXRP ---------------------------------------------+        ---------------
+// {ticker: "XRP/USDT", price: 3}                        |---->  | combineLatest |
+// binanceXRP -------------------------------------------+        ---------------
+// {usdPrice: 1310}                                      |
+// dollar------------------------------------------------       calculateBTCPremium {ticker: "BTC", upbitPrice: 123213, binancePrice: 12340, usdtPremium: 0, usdPremium: usdtPremium}
 ```
 
-```
-upbit --> filter -> XRP/KRW -------------------------------------
-                    BTC/KRW  ---                                 |
-                                |-combineLatest---> USDT/KRW-----+--combineLatest---> {xrpkrw, xrpusdt, usdtkrw
-binance             BTC/USDT ---                                 |
-                    XRP/USDT-------------------------------------
+## References
 
-{btckrw, btcusdt, usdtkrw}
-{xrpkrw, xrpusdt, usdtkrw}
-
-worse is better
-
-A stream {BTC, Others} (Binance)
-
-B filter BTC
-C filter Others { b: 200, u : 100, premium :  }
-
-2랑 B를 합쳐서 먼가 계산해야함 -> usdt/krw
-
-1 stream {BTC, Others} (Upibt)
-
-2 filter BTC
-3 filter Others
-
-btc<---
-
-upbit -> eth eth xrp bch luna btc
-binance -> eth xrp bch luna xrp xrp xlm xlm luna luna | btc
-
-usdt/krw <----
-
-(btc/usdt) / (btc/krw)
-```
+[🔗 hot vs cold Observables](https://benlesh.medium.com/hot-vs-cold-observables-f8094ed53339)

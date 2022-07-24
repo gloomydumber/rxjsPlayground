@@ -26,7 +26,10 @@ const {
 
 const sub1$ = new Subject();
 const sub2$ = new Subject();
-const usdObs$ = interval(1500).pipe(map(() => 1300 + Math.random() * 10));
+const usdObs$ = timer(0, 2000).pipe(
+  map(() => 1300 + Math.random() * 10),
+  tap(() => console.log("달러값이 변경되었습니다"))
+);
 // const usdObs$ = timer(0, 1500).pipe(map(() => 1300));
 
 // sub1$.subscribe({
@@ -71,7 +74,7 @@ const sendingListTwo = [
     price: 800,
   },
   {
-    ticekr: "ETH",
+    ticker: "ETH",
     price: 600,
   },
   {
@@ -96,20 +99,14 @@ const sendingListTwo = [
   },
 ];
 
-const btcSub1$ = sub1$.pipe(
-  filter((x) => x.ticker === "BTC")
-  // tap(console.log)
-);
+const btcSub1$ = sub1$.pipe(filter((x) => x.ticker === "BTC"));
 
 const otherSub1$ = sub1$.pipe(
   filter((x) => x.ticker !== "BTC"),
   tap(console.log)
 );
 
-const btcSub2$ = sub2$.pipe(
-  filter((x) => x.ticker === "BTC")
-  // tap(console.log)
-);
+const btcSub2$ = sub2$.pipe(filter((x) => x.ticker === "BTC"));
 
 const otherSub2$ = sub2$.pipe(
   filter((x) => x.ticker !== "BTC"),
@@ -117,26 +114,21 @@ const otherSub2$ = sub2$.pipe(
 );
 
 const combinedBTCsub$ = combineLatest({ btcSub1$, btcSub2$, usdObs$ }).pipe(
-  map((x) =>
-    Object.assign(x, {
-      usdPremium:
-        100 -
-        ((x["btcSub1$"].price * x["usdObs$"]) / x["btcSub2$"].price) * 100,
-      usdtPremium:
-        100 -
-          ((x["btcSub1$"].price * (x["btcSub2$"].price / x["btcSub1$"].price)) /
-            x["btcSub2$"].price) *
-            100 >
-        0.01
-          ? 100 -
-            ((x["btcSub1$"].price *
-              (x["btcSub2$"].price / x["btcSub1$"].price)) /
-              x["btcSub2$"].price) *
-              100
-          : 0,
+  map((x) => {
+    const usdtPremium =
+      100 -
+      ((x["btcSub1$"].price * (x["btcSub2$"].price / x["btcSub1$"].price)) /
+        x["btcSub2$"].price) *
+        100;
+    const usdPremium =
+      100 - ((x["btcSub1$"].price * x["usdObs$"]) / x["btcSub2$"].price) * 100;
+
+    return Object.assign(x, {
+      usdPremium,
+      usdtPremium: usdtPremium > 0.01 ? usdtPremium : 0,
       usdt: x["btcSub2$"].price / x["btcSub1$"].price,
-    })
-  )
+    });
+  })
 );
 
 // btcSub1$.subscribe();
@@ -155,6 +147,9 @@ combinedBTCsub$.subscribe(console.log);
 for (i = 1; i < sendingListOne.length + 1; i++) {
   (function (x) {
     setTimeout(() => {
+      console.log(
+        `1-${x - 1} 번째 ${sendingListOne[x - 1].ticker}를 발행합니다`
+      );
       sub1$.next(sendingListOne[x - 1]);
     }, 1500 * x);
   })(i);
@@ -163,6 +158,9 @@ for (i = 1; i < sendingListOne.length + 1; i++) {
 for (i = 1; i < sendingListTwo.length + 1; i++) {
   (function (x) {
     setTimeout(() => {
+      console.log(
+        `2-${x - 1} 번째 ${sendingListTwo[x - 1].ticker}를 발행합니다`
+      );
       sub2$.next(sendingListTwo[x - 1]);
     }, 1500 * x);
   })(i);
