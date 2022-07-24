@@ -225,6 +225,17 @@ combineLatest({ binance: bpipe, upbit: upipe, usd: obs$ });
 
 로 _key_ 값을 변경할 수 있다
 
+## JavaScript Object Key 값을 변수로 하고 싶은 경우
+
+```javascript
+let keyName = "I AM KEY";
+let obj = {
+  [keyName] : "value here";
+}
+```
+
+와 같이 작성하면 *Object*의 *Key*를 변수의 값으로 할당 가능하다
+
 ## modeling
 
 ![drawio](https://github.com/gloomydumber/rxjsPlayground/blob/master/img/drawio.png)
