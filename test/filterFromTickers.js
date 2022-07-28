@@ -76,8 +76,8 @@ const obs$ = timer(0, 2000).pipe(
 // subjectBinance.subscribe();
 // subjectUpbit.subscribe();
 const tickerObs$ = of(...TICKERS).pipe(
-  map((x) => {
-    let uItem = subjectUpbit.pipe(
+  mergeMap((x) => {
+    const uItem = subjectUpbit.pipe(
       filter((y) => y.code.split("-")[1] === x),
       map((z) => ({ market: z.code, price: z.trade_price }))
     );
@@ -86,9 +86,10 @@ const tickerObs$ = of(...TICKERS).pipe(
       map((z) => ({ market: z.s, price: Number(z.c) }))
     );
 
-    combineLatest({ [`UP-${x}`]: uItem, [`BN-${x}`]: bItem }).subscribe(
-      console.log
-    );
+    return combineLatest({ [`UP-${x}`]: uItem, [`BN-${x}`]: bItem });
+    // combineLatest({ [`UP-${x}`]: uItem, [`BN-${x}`]: bItem }).subscribe(
+    //   console.log
+    // );
   })
 );
-tickerObs$.subscribe();
+tickerObs$.subscribe(console.log);

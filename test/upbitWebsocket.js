@@ -18,7 +18,7 @@ const subject = webSocket("wss://api.upbit.com/websocket/v1");
 // subject.pipe(tap((x) => console.log(x))).subscribe();
 
 subject
-  .pipe(map((x) => ({ market: x.code, price: x.trade_price })))
+  // .pipe(map((x) => ({ market: x.code, price: x.trade_price })))
   .subscribe((msg) => console.log(msg));
 
 const upbitInit = JSON.parse(
