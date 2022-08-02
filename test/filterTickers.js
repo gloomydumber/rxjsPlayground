@@ -36,7 +36,9 @@ const {
 const upbitObs = timer(0, 2000).pipe(
   switchMap(() => ajax("https://api.upbit.com/v1/market/all")),
   pluck("response"),
-  retry({ delay: 1500 })
+  mergeMap((x) => from(x).pipe(map((x) => x.market.split("-")[1]))),
+  distinct()
+  // retry({ delay: 1500 })
 );
 
 const binanceObs = timer(0, 2000).pipe(
@@ -47,8 +49,8 @@ const binanceObs = timer(0, 2000).pipe(
   // retry({ delay: 1500 })
 );
 
-// upbitObs.subscribe(console.log);
-binanceObs.subscribe(console.log);
+upbitObs.subscribe(console.log);
+// binanceObs.subscribe(console.log);
 
 // Binance 상장 coin 정보
 // status가 BREAK, TRADING

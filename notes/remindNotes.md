@@ -282,6 +282,12 @@ USDT 계산 부분을 그냥 ajax로 할지 고민중
 // dollar------------------------------------------------       calculateBTCPremium {ticker: "BTC", upbitPrice: 123213, binancePrice: 12340, usdtPremium: 0, usdPremium: usdtPremium}
 ```
 
+## to do list
+
+filterTicker에서 공통된 것을 뽑아내는 방법 생각
+
+wsReconnection에서 multicast 구현 및 share 해보기
+
 ## References
 
 [🔗 hot vs cold Observables](https://benlesh.medium.com/hot-vs-cold-observables-f8094ed53339)
