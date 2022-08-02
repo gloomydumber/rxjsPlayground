@@ -286,7 +286,7 @@ USDT 계산 부분을 그냥 ajax로 할지 고민중
 
 filterTicker에서 공통된 것을 뽑아내는 방법 생각
 
-wsReconnection에서 multicast 구현 및 share 해보기
+wsReconnection에서 multicast 구현 및 share 해보기 (이를 바탕으로 stackoverflow 자문자답)
 
 ## References
 
