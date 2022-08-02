@@ -1,8 +1,8 @@
 global.WebSocket = require("ws");
 global.XMLHttpRequest = require("xhr2"); // for Server Side Ajax
-const { KRW } = require("./krw");
-const { USDT } = require("./usdt");
-const { TICKERS } = require("./tickers");
+const { KRW } = require("../data/krw");
+const { USDT } = require("../data/usdt");
+const { TICKERS } = require("../data/tickers");
 const { webSocket } = require("rxjs/webSocket");
 const { ajax } = require("rxjs/ajax");
 const {
@@ -31,7 +31,7 @@ const {
   Observable,
 } = require("rxjs");
 
-const RECONNECT_INTERVAL = 3000;
+const RECONNECT_INTERVAL = 1000;
 const webSocketSubject = webSocket("ws://localhost:8001");
 // webSocketSubject
 //   .pipe(
@@ -83,8 +83,9 @@ webSocketSubject
     })
   )
   .subscribe({
-    next: (value) => console.log("[retry] Receive ", value),
+    next: (value) => console.log(value),
     error: (err) => console.log(err),
+    complete: (x) => console.log(x),
   });
 
 // webSocketSubject

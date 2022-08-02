@@ -1,7 +1,7 @@
 // !miniTicker@arr
 //  btcusdt@miniTicker
 global.WebSocket = require("ws");
-const { USDT } = require("./usdt");
+const { USDT } = require("../data/usdt");
 const { webSocket } = require("rxjs/webSocket");
 const { map } = require("rxjs/operators");
 

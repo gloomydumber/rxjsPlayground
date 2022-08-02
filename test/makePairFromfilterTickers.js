@@ -1,8 +1,8 @@
 global.WebSocket = require("ws");
 global.XMLHttpRequest = require("xhr2"); // for Server Side Ajax
-const { KRW } = require("./krw");
-const { USDT } = require("./usdt");
-const { TICKERS } = require("./tickers");
+const { KRW } = require("../data/krw");
+const { USDT } = require("../data/usdt");
+const { TICKERS } = require("../data/tickers");
 const { webSocket } = require("rxjs/webSocket");
 const { ajax } = require("rxjs/ajax");
 const {

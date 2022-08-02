@@ -1,6 +1,6 @@
 global.WebSocket = require("ws");
-const { KRW } = require("./krw");
-const { USDT } = require("./usdt");
+const { KRW } = require("../test/krw");
+const { USDT } = require("../test/usdt");
 const { webSocket } = require("rxjs/webSocket");
 const { map, scan, concatMap } = require("rxjs/operators");
 const { v4 } = require("uuid");

@@ -1,3 +1,5 @@
+// share test 필요
+
 const { interval } = require("rxjs");
 const { take, tap, takeLast, share } = require("rxjs/operators");
 
