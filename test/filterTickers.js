@@ -19,6 +19,7 @@ const {
   retryWhen,
   distinct,
   reduce,
+  scan,
 } = require("rxjs/operators");
 const { v4 } = require("uuid");
 const {
@@ -39,7 +40,7 @@ const {
   forkJoin,
 } = require("rxjs");
 
-const upbitObs = timer(0, 2000).pipe(
+const upbitObs = timer(0, 5000).pipe(
   switchMap(() => ajax("https://api.upbit.com/v1/market/all")),
   pluck("response"),
   mergeMap((x) =>
@@ -52,7 +53,7 @@ const upbitObs = timer(0, 2000).pipe(
   // retry({ delay: 1500 })
 );
 
-const binanceObs = timer(0, 2000).pipe(
+const binanceObs = timer(0, 5000).pipe(
   switchMap((_) => ajax("https://api.binance.com/api/v3/exchangeInfo")),
   pluck("response", "symbols"),
   mergeMap((x) =>
@@ -77,7 +78,7 @@ const filteredArray = combineLatest({
   map((x) => x.upbitTicker.filter((value) => x.binanceTicker.includes(value)))
 );
 
-filteredArray.subscribe(console.log);
+filteredArray.subscribe((x) => console.dir(x, { maxArrayLength: null }));
 
 // merge(upbitObs, binanceObs).subscribe(console.log);
 // merge(upbitObs, binanceObs).pipe(skip(1), take(1)).subscribe(console.log);
