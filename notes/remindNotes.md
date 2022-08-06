@@ -282,9 +282,63 @@ USDT 계산 부분을 그냥 ajax로 할지 고민중
 // dollar------------------------------------------------       calculateBTCPremium {ticker: "BTC", upbitPrice: 123213, binancePrice: 12340, usdtPremium: 0, usdPremium: usdtPremium}
 ```
 
+```javascript
+// 2 가지방법
+
+// 1. 그냥 USDT 계산 안하고 USD 프리미엄으로만 처리 -> 로직이 아주 간단해지나, 비트코인 대비 상대적인 프리미엄 계산이 어려울 수 있음
+// 이 경우, 달러 프리미엄이 3~4 % 상수로서 존재할 때 auto-lender는 동작하지 않아야함
+
+// 2. USDT 프리미엄 계산 로직
+// 우선 모든 Ticker 각각 양 거래소를 combineLatest 실시
+// 발행물을 두 경우 조건문으로 제어함
+
+// 첫 번째 경우 - Ticker가 BTC일 경우
+// USDT 값을 계산하여 속성으로 같이 부여하여 발행
+
+// 두번째 경우 - Ticker가 BTC이외의 경우
+// 두번째 경우의 첫번째 케이스 : USDT가 계산되지 않은 경우 - 아무것도 발행하지않음
+// 두번째 경우의 두번째 케이스 : USDT가 계산된 경우 - USDT프리미엄 값을 계산하여 속성으로 같이 부여하여 발행
+
+// 첫번째 경우 예시
+{
+  upbit: { market: "KRW-BTC", price: 30000000 },
+  binance: { market: "BTCUSDT", price: 29300 }
+}
+// 과 같이 수신되었을때, Ticker가 BTC인 경우이므로,
+
+{
+  upbit: { market: "KRW-BTC", price: 30000000 },
+  binance: { market: "BTCUSDT", price: 29300 },
+  usdt: 1324.24
+}
+// 로 usdt field 부여하여 발행
+
+// 두번째 경우 예시
+{
+  upbit: { market: 'KRW-SRM', price: 1460 },
+  binance: { market: 'SRMUSDT', price: 1.126 }
+}
+
+// 와 같이 Ticker가 BTC가 아닌 경우 이므로,
+// 이 경우, 만약 아직 usdt가 앞서 BTC의 수신으로 계산되지 않았다면 발행 x
+// 계산되었다면,
+
+{
+  upbit: { market: 'KRW-SRM', price: 1460 },
+  binance: { market: 'SRMUSDT', price: 1.126 },
+  usdtPremium : -3.2
+}
+
+// 와 같이 usdtPremium field 부여하여 발행
+```
+
 ## to do list
 
-filterTicker에서 공통된 것을 뽑아내는 방법 생각
+( + 고민 리스트)
+
+ajax에 repeat도 해줄 필요가 있나? (timer 에 들어있어서 해줄 필요 없어보임)
+
+upbitWS의 경우, uuid 및 구독정보를 연결후에 보내준뒤에서야 발신을 시작하기 때문에 pipe에 제약
 
 wsReconnection에서 multicast 구현 및 share 해보기 (이를 바탕으로 stackoverflow 자문자답)
 
