@@ -34,20 +34,20 @@ subjectUpbit.next(generateUpbitUUID());
 
 const tickerObs$ = of(...TICKERS).pipe(
   mergeMap((x) => {
-    const uItem = subjectUpbit.pipe(
+    const upbit = subjectUpbit.pipe(
       filter((y) => y.code.split("-")[1] === x),
       map((z) => ({ market: z.code, price: z.trade_price })),
       repeat({ delay: 2500 }),
       retry({ delay: 2500 })
     );
-    const bItem = subjectBinance.pipe(
+    const binance = subjectBinance.pipe(
       filter((y) => y.s.slice(0, -4) === x),
       map((z) => ({ market: z.s, price: Number(z.c) })),
       repeat({ delay: 2500 }),
       retry({ delay: 2500 })
     );
 
-    return combineLatest({ upbit: uItem, binance: bItem });
+    return combineLatest({ upbit, binance });
   })
 );
 

@@ -13,7 +13,7 @@ const { filter, take, map, toArray } = rxjs.operators;
 range(1, 20)
   .pipe(
     filter((n) => n % 2 === 0), // 짝수들만 걸러냄
-    take(5), // 앞으 5개만 가져옴
+    take(5), // 앞의 5개만 가져옴
     map((n) => Math.pow(n, 2)), // 제곱
     toArray(), // 통과하는 값들을 배열로 모아 내보냄
     map((arr) => arr.join(", "))
@@ -149,14 +149,14 @@ range(1, 20).pipe(
 
 ### Notes for remind
 
-[rxjs 활용기](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/remindNotes.md)
+[🔗 rxjs 활용기](https://github.com/gloomydumber/rxjsPlayground/blob/master/notes/remindNotes.md)
 
 ## References
 
-https://rxjs-dev.firebaseapp.com/guide/overview
+[🔗 rxjs ofiicial document](https://rxjs-dev.firebaseapp.com/guide/overview)
 
-https://www.learnrxjs.io/
+[🔗 learnrxjs.io](https://www.learnrxjs.io/)
 
-https://reactive.how/
+[🔗 reactive.how](https://reactive.how/)
 
-https://rxviz.com/
+[🔗 rx visualizer](https://rxviz.com/)
