@@ -64,9 +64,9 @@ const usdt = btc.pipe(
     usdtPrice: x.usdtPrice,
   }))
 );
-const nonBtc = tickerObs$.pipe(filter((x) => x.upbit.market !== "KRW-BTC"));
-const nonBTCwithUSDT = combineLatest({ nonBtc, usdt }).pipe(
-  map((x) => ({ ...x.nonBtc, ...x.usdt })),
+const nonBTC = tickerObs$.pipe(filter((x) => x.upbit.market !== "KRW-BTC"));
+const nonBTCwithUSDT = combineLatest({ nonBTC, usdt }).pipe(
+  map((x) => ({ ...x.nonBTC, ...x.usdt })),
   map((x) => ({
     ...x,
     usdtPremium: Number(

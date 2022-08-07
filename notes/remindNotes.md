@@ -332,15 +332,87 @@ USDT 계산 부분을 그냥 ajax로 할지 고민중
 // 와 같이 usdtPremium field 부여하여 발행
 ```
 
+```javascript
+우선은 Ticker는 수기작성
+업비트 웹소켓 / 바인낸스 웹소켓 / 달러정보
+프리미엄 발생 시 Telegram Notify
+
+1. 바이낸스 업비트에서 무작위로 오는 아래의 거래 정보를 같은 ticker끼리
+combineLatset로 묶어준다
+이 때, BTC인 종목도 수신되고, non-BTC로도 수신되지만 일단 같은 ticker끼리는 묵는다
+이를 const pairedSameTickerObs$; 로 선언
+가령, 객체를 한 단위로 다음과 같은 format으로 수신 됨
+{
+ upbit : { market: 'KRW-BTC', price: 30698000 },
+ binance : { market: 'BTCUSDT', prcie: 23152.33 }
+}
+{
+  upbit: { market: 'KRW-ETC', price: 50940 },
+  binance: { market: 'ETCUSDT', price: 38.43 }
+}
+
+2. pairedSameTickerObs$에서, BTC와 non-BTC를 분리하여 Observable을 생성해 준다.
+2-1-1. const btcObs$에서는 아래와 같은 단위 수신
+{
+ upbit : { market: 'KRW-BTC', price: 30698000 },
+ binance : { market: 'BTCUSDT', prcie: 23152.33 }
+}
+2-1-2. 해당 내용을 통해 usdt 필드를 생성해서 계산하여 추가하여 발신한다.
+{
+  upbit : { market: 'KRW-BTC', price: 30698000 },
+  binance : { market: 'BTCUSDT', prcie: 23152.33 }
+  usdt: 1325.91
+}
+최종적으로 btcObs$에서는 위의 구조의 객체 형태로 발신
+
+2-2-1. const nonBtcObs$에서는 아래와 같은 단위 수신
+{
+  upbit: { market: 'KRW-ETC', price: 50940 },
+  binance: { market: 'ETCUSDT', price: 38.43 }
+}
+2-2-2. 위의 2-1-2에서의 usdt 정보를 이용해야하므로, 2-1-2와 combineLatest로 묶어준다.
+이에,
+{
+  upbit: { market: 'KRW-ETC', price: 50940 },
+  binance: { market: 'ETCUSDT', price: 38.43 },
+  usdtPremium : 3.21%
+}
+와 같이 발행해준다.
+(cf. 구조분해할당)
+최종적으로 nonBtcObs$에서는 위의 구조의 객체 형태로 발신
+
+4. 최종 수신 형태 finalObs$는 1의 pairedSameTickerObs$처럼 btc와 nonBtc 모두가 수신되나,
+btc의 경우
+upbit 필드, binance 필드, usdt 필드 모두 존재하고 값을 지닌다
+non-btc의 경우
+upbit 필드, binance 필드, usdtPremium 필드 모두 존재하고 값을 지닌다
+{
+ upbit : { market: 'KRW-BTC', price: 30698000 },
+ binance : { market: 'BTCUSDT', prcie: 23152.33 },
+ usdt: 1325.91
+}
+{
+  upbit: { market: 'KRW-ETC', price: 50940 },
+  binance: { market: 'ETCUSDT', price: 38.43 }
+  usdtPremium: 3.21%
+}
+
+이를 위해, 2-1-2의 btcObs$와 2-2-2의 nonBtcObs$를 merge한것이 finalObs$
+```
+
 ## to do list
 
 ( + 고민 리스트)
+
+filterTickers에서, 격리 margin 지원되는 것만 추출하도록 한번더 filter
 
 ajax에 repeat도 해줄 필요가 있나? (timer 에 들어있어서 해줄 필요 없어보임)
 
 upbitWS의 경우, uuid 및 구독정보를 연결후에 보내준뒤에서야 발신을 시작하기 때문에 pipe에 제약
 
 wsReconnection에서 multicast 구현 및 share 해보기 (이를 바탕으로 stackoverflow 자문자답)
+
+ip 관련 (https://www.100mb.kr/bbs/board.php?bo_table=customer&wr_id=305854, https://www.100mb.kr/bbs/board.php?bo_table=customer&wr_id=441455)
 
 ## References
 

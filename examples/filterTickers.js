@@ -87,8 +87,3 @@ filteredArray.subscribe((x) => console.dir(x, { maxArrayLength: null }));
 // status가 BREAK, TRADING
 // permissions 값이 배열로 ['SPOT', 'MARGIN']
 // baseAsset, quoteAsset
-
-// 1. 일단 baseAsset만을 중복없이 추출해보자
-
-// const test$ = from(["A", "B", "C"]).pipe();
-// test$.subscribe(console.log);
