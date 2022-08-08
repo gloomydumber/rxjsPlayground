@@ -1,8 +1,9 @@
 process.env.NTBA_FIX_319 = 1; // no warning for node-telegram-bot-api deprecated warning
 // https://github.com/yagop/node-telegram-bot-api/issues/540
 const TelegramBot = require("node-telegram-bot-api");
+require("dotenv").config({ path: "../.env" });
 
-const token = "1415137363:AAHX0fgO33_kMtwasUv9WkqaqfU4sYPSAjM";
+const token = process.env.TELEGRAM_TOKEN;
 const errChatID = "-1001151156977";
 // const bot = new TelegramBot(token, {polling: true});
 const bot = new TelegramBot(token);
