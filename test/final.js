@@ -13,6 +13,7 @@ const {
   retry,
   repeat,
   tap,
+  delayWhen,
 } = require("rxjs/operators");
 const { v4 } = require("uuid");
 const { combineLatest, timer, of, filter, merge, share } = require("rxjs");
@@ -40,6 +41,11 @@ function dateZeroFormatter(t) {
   if (t < 10) return `0${t}`;
   else return t;
 }
+
+const token = process.env.TELEGRAM_TOKEN;
+const errChatID = "-1001151156977";
+// const bot = new TelegramBot(token, {polling: true});
+const bot = new TelegramBot(token);
 
 const binanceQuery = USDT.join("@miniTicker/") + "@miniTicker";
 const subjectBinance = webSocket(
