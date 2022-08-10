@@ -16,6 +16,30 @@ const {
 } = require("rxjs/operators");
 const { v4 } = require("uuid");
 const { combineLatest, timer, of, filter, merge, share } = require("rxjs");
+process.env.NTBA_FIX_319 = 1; // no warning for node-telegram-bot-api deprecated warning
+// https://github.com/yagop/node-telegram-bot-api/issues/540
+const TelegramBot = require("node-telegram-bot-api");
+require("dotenv").config({ path: "../.env" });
+
+const RECONNECT_INTERVAL = 2500;
+
+function getDate() {
+  let date = new Date();
+  let Y, M, D, h, m, s;
+  Y = date.getFullYear();
+  M = dateZeroFormatter(date.getMonth() + 1);
+  D = dateZeroFormatter(date.getDate());
+  h = dateZeroFormatter(date.getHours());
+  m = dateZeroFormatter(date.getMinutes());
+  s = dateZeroFormatter(date.getSeconds());
+  date = `${Y}-${M}-${D} ${h}:${m}:${s} 🤔`;
+  return date;
+}
+
+function dateZeroFormatter(t) {
+  if (t < 10) return `0${t}`;
+  else return t;
+}
 
 const binanceQuery = USDT.join("@miniTicker/") + "@miniTicker";
 const subjectBinance = webSocket(
@@ -37,14 +61,62 @@ const tickerObs$ = of(...TICKERS).pipe(
     const upbit = subjectUpbit.pipe(
       filter((y) => y.code.split("-")[1] === x),
       map((z) => ({ market: z.code, price: z.trade_price })),
-      repeat({ delay: 2500 }),
-      retry({ delay: 2500 })
+      repeat({
+        delay: (x) =>
+          of(x).pipe(
+            tap((x) => {
+              bot.sendMessage(
+                errChatID,
+                `Upbit WebSocket\n repeat operator ${x} times activated\n at : ${getDate()}`,
+                { parse_mode: "markdown" }
+              );
+            }),
+            delayWhen((_) => timer(RECONNECT_INTERVAL))
+          ),
+      }),
+      retry({
+        delay: (err, x) =>
+          of(x).pipe(
+            tap((x) => {
+              bot.sendMessage(
+                errChatID,
+                `Upbit WebSocket\n retry operator ${x} times activated\n at : ${getDate()}`,
+                { parse_mode: "markdown" }
+              );
+            }),
+            delayWhen((_) => timer(RECONNECT_INTERVAL))
+          ),
+      })
     );
     const binance = subjectBinance.pipe(
       filter((y) => y.s.slice(0, -4) === x),
       map((z) => ({ market: z.s, price: Number(z.c) })),
-      repeat({ delay: 2500 }),
-      retry({ delay: 2500 })
+      repeat({
+        delay: (x) =>
+          of(x).pipe(
+            tap((x) => {
+              bot.sendMessage(
+                errChatID,
+                `Binance WebSocket\n repeat operator ${x} times activated\n at : ${getDate()}`,
+                { parse_mode: "markdown" }
+              );
+            }),
+            delayWhen((_) => timer(RECONNECT_INTERVAL))
+          ),
+      }),
+      retry({
+        delay: (err, x) =>
+          of(x).pipe(
+            tap((x) => {
+              bot.sendMessage(
+                errChatID,
+                `Binance WebSocket\n retry operator ${x} times activated\n at : ${getDate()}`,
+                { parse_mode: "markdown" }
+              );
+            }),
+            delayWhen((_) => timer(RECONNECT_INTERVAL))
+          ),
+      })
     );
 
     return combineLatest({ upbit, binance });
@@ -81,7 +153,33 @@ const usd = timer(0, 3000).pipe(
       "https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD"
     ).pipe(
       pluck("response", 0, "basePrice"),
-      map((x) => ({ usdPrice: x }))
+      map((x) => ({ usdPrice: x })),
+      repeat({
+        delay: (x) =>
+          of(x).pipe(
+            tap((x) => {
+              bot.sendMessage(
+                errChatID,
+                `Fethcing USD\n repeat operator ${x} times activated\n at : ${getDate()}`,
+                { parse_mode: "markdown" }
+              );
+            }),
+            delayWhen((_) => timer(RECONNECT_INTERVAL))
+          ),
+      }),
+      retry({
+        delay: (err, x) =>
+          of(x).pipe(
+            tap((x) => {
+              bot.sendMessage(
+                errChatID,
+                `Fethcing USD\n retry operator ${x} times activated\n at : ${getDate()}`,
+                { parse_mode: "markdown" }
+              );
+            }),
+            delayWhen((_) => timer(RECONNECT_INTERVAL))
+          ),
+      })
     )
   )
 );
