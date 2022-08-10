@@ -227,6 +227,38 @@ combineLatest({ binance: bpipe, upbit: upipe, usd: obs$ });
 
 로 _key_ 값을 변경할 수 있다
 
+## repeat에 관해
+
+```javascript
+const usd = timer(0, 3000).pipe(
+  switchMap(() =>
+    ajax(
+      "https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD"
+    ).pipe(
+      pluck("response", 0, "basePrice"),
+      map((x) => ({ usdPrice: x })),
+      retry({
+        delay: (err, x) =>
+          of(x).pipe(
+            tap((x) => {
+              bot.sendMessage(
+                errChatID,
+                `Fethcing USD\n retry operator ${x} times activated\n at : ${getDate()}`,
+                { parse_mode: "markdown" }
+              );
+            }),
+            delayWhen((_) => timer(RECONNECT_INTERVAL))
+          ),
+      })
+    )
+  )
+);
+```
+
+와 같이 이미 `timer`를 통해 반복적인 `ajax` 요청을 할 때에는 `repeat`을 사용할 필요 없음
+
+`timer` 쓰지 않고 `repeat` 바로 쓰는게 맞을지도
+
 ## JavaScript Object Key 값을 변수로 하고 싶은 경우
 
 ```javascript

@@ -160,19 +160,6 @@ const usd = timer(0, 3000).pipe(
     ).pipe(
       pluck("response", 0, "basePrice"),
       map((x) => ({ usdPrice: x })),
-      repeat({
-        delay: (x) =>
-          of(x).pipe(
-            tap((x) => {
-              bot.sendMessage(
-                errChatID,
-                `Fethcing USD\n repeat operator ${x} times activated\n at : ${getDate()}`,
-                { parse_mode: "markdown" }
-              );
-            }),
-            delayWhen((_) => timer(RECONNECT_INTERVAL))
-          ),
-      }),
       retry({
         delay: (err, x) =>
           of(x).pipe(
