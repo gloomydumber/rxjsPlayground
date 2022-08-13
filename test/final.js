@@ -198,11 +198,11 @@ const nonBTCwithUSDTandUSD = combineLatest({ nonBTCwithUSDT, usd }).pipe(
 
 merge(btcWithUSD, nonBTCwithUSDTandUSD).subscribe((x) => {
   console.log(x, new Date().toISOString());
-  if (x.usdtPremium > 4.5) {
-    bot.sendMessage(
-      errChatID,
-      `${x.upbit.market}\n${x.usdtPremium}%\n${getDate()}`,
-      { parse_mode: "markdown" }
-    );
-  }
+  // if (Math.abs(x.usdtPremium) > 4.5) {
+  //   bot.sendMessage(
+  //     errChatID,
+  //     `${x.upbit.market}\n${x.usdtPremium}%\n${getDate()}`,
+  //     { parse_mode: "markdown" }
+  //   );
+  // }
 });
