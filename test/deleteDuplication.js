@@ -200,7 +200,8 @@ const usd = timer(0, 3000).pipe(
     ajax(
       "https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD"
     ).pipe(
-      pluck("response", 0, "basePrice"),
+      // pluck("response", 0, "basePrice"),
+      map((x) => x?.response[0]?.basePrice),
       map((x) => ({ usdPrice: x })),
       retry({
         delay: (err, x) =>
@@ -249,4 +250,7 @@ const nonBTCwithUSDTandUSD = combineLatest({ nonBTCwithUSDT, usd }).pipe(
 //   // }
 // });
 
-btc.subscribe(console.log);
+// btc.subscribe(console.log);
+usdt.subscribe(console.log);
+
+// usd.subscribe(console.log);
