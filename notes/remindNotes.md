@@ -442,6 +442,8 @@ ajax에 repeat도 해줄 필요가 있나? (timer 에 들어있어서 해줄 필
 
 upbitWS의 경우, uuid 및 구독정보를 연결후에 보내준뒤에서야 발신을 시작하기 때문에 pipe에 제약
 
+(-> 연결후 구독 정보 보낸 후 그것에 대해 `pipe` 하는 옵저버블 하나 더 만들어서 해결)
+
 wsReconnection에서 multicast 구현 및 share 해보기 (이를 바탕으로 stackoverflow 자문자답)
 
 ip 관련 (https://www.100mb.kr/bbs/board.php?bo_table=customer&wr_id=305854, https://www.100mb.kr/bbs/board.php?bo_table=customer&wr_id=441455)
